@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    >
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <ImageView
+        android:id="@+id/iv_card_item_image"
+        android:layout_width="150dp"
+        android:layout_height="262dp"
+        tools:src="@raw/swkn"
+        android:padding="2dp"
+        />
+</FrameLayout>
