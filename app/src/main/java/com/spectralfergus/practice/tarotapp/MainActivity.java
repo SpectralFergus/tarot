@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     private CardAdapter cardAdapter;
     private Card[] cardsList;
 
+    private ProgressBar progressIndicator;
+    private View mainContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         tvMeaningRev = findViewById(R.id.meaning_rev);
         tvDesc = findViewById(R.id.desc);
 //        ivCard = findViewById(R.id.iv_card);
+
+        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
+        mainContent = (View) findViewById(R.id.main_content);
 
         loadCardData();
     }
@@ -129,7 +136,8 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //TODO: + LoadingIndicator
+            progressIndicator.setVisibility(View.VISIBLE);
+            mainContent.setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -171,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
                 cardsList = cards;
                 cardAdapter.setCardList(cards);
                 onClick(0);
+
+                progressIndicator.setVisibility(View.GONE);
+                mainContent.setVisibility(View.VISIBLE);
+            } else {
+                //TODO: error message display
             }
         }
     }
