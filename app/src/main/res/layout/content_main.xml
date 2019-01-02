@@ -1,133 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="4dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/activity_main">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="4dp"
+              app:layout_behavior="@string/appbar_scrolling_view_behavior"
+              tools:context=".MainActivity"
+              tools:showIn="@layout/activity_main">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+    />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_card_images"
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/card_height"
-            android:orientation="horizontal"
-            tools:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/card_item"
-            tools:orientation="horizontal" />
-    </FrameLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/colorSlate"
-    >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/info_section"
+            android:layout_height="match_parent"
+            android:id="@+id/main_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name"
-                style="@style/TextViewDefault"
+        <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                tools:text="Knight of Swords" />
+                android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_card_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/card_height"
+                    android:orientation="horizontal"
+                    tools:layoutManager="LinearLayoutManager"
+                    tools:listitem="@layout/card_item"
+                    tools:orientation="horizontal"/>
+        </FrameLayout>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/colorSlate">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <!--<TextView-->
-                <!--android:id="@+id/name_short"-->
-                <!--style="@style/TextViewDefault"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--tools:text="swkn" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/value"-->
-                <!--style="@style/TextViewDefault"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--tools:text="knight" />-->
+                    android:id="@+id/description_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/value_int"
-                    style="@style/TextViewDefault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:paddingTop="0dp"
-                    tools:text="Rank: 12" />
+                        android:id="@+id/name"
+                        style="@style/TextViewDefault"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        tools:text="Knight of Swords"/>
 
-                <!--<TextView-->
-                <!--android:id="@+id/suit"-->
-                <!--style="@style/TextViewDefault"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--tools:text="swords" />-->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    <!--<TextView-->
+                    <!--android:id="@+id/name_short"-->
+                    <!--style="@style/TextViewDefault"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--tools:text="swkn" />-->
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/value"-->
+                    <!--style="@style/TextViewDefault"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--tools:text="knight" />-->
+
+                    <TextView
+                            android:id="@+id/value_int"
+                            style="@style/TextViewDefault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:paddingTop="0dp"
+                            tools:text="Rank: 12"/>
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/suit"-->
+                    <!--style="@style/TextViewDefault"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--tools:text="swords" />-->
+
+                    <TextView
+                            android:id="@+id/arcana"
+                            style="@style/TextViewDefault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Minor Arcana"/>
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/arcana"
-                    style="@style/TextViewDefault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Minor Arcana" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
+                        android:text="Meaning:"
+                        android:textStyle="bold"/>
+
+                <TextView
+                        android:id="@+id/meaning_up"
+                        style="@style/TextViewDefault"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Skill, bravery, capacity, defence, address, enmity, wrath, war, destruction, opposition, resistance, ruin. There is therefore a sense in which the card signifies death, but it carries this meaning only in its proximity to other cards of fatality."/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="0dp"
+                        android:text="Inverse:"
+                        android:textStyle="bold"/>
+
+                <TextView
+                        android:id="@+id/meaning_rev"
+                        style="@style/TextViewDefault"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Imprudence, incapacity, extravagance."/>
+
+                <TextView
+                        android:id="@+id/desc"
+                        style="@style/TextViewDefault"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textStyle="italic"
+                        tools:text="He is riding in full course, as if scattering his enemies. In the design he is really a prototypical hero of romantic chivalry. He might almost be Galahad, whose sword is swift and sure because he is clean of heart."/>
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0dp"
-                android:text="Meaning:"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/meaning_up"
-                style="@style/TextViewDefault"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Skill, bravery, capacity, defence, address, enmity, wrath, war, destruction, opposition, resistance, ruin. There is therefore a sense in which the card signifies death, but it carries this meaning only in its proximity to other cards of fatality." />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0dp"
-                android:text="Inverse:"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/meaning_rev"
-                style="@style/TextViewDefault"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Imprudence, incapacity, extravagance." />
-
-            <TextView
-                android:id="@+id/desc"
-                style="@style/TextViewDefault"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textStyle="italic"
-                tools:text="He is riding in full course, as if scattering his enemies. In the design he is really a prototypical hero of romantic chivalry. He might almost be Galahad, whose sword is swift and sure because he is clean of heart." />
-        </LinearLayout>
-
-    </ScrollView>
-
+        </ScrollView>
+    </LinearLayout>
 </LinearLayout>
