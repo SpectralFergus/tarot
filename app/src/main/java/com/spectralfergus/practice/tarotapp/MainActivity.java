@@ -113,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_reset) {
+            loadCardData();
+        }
 
         return super.onOptionsItemSelected(item);
     }
