@@ -9,22 +9,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
-import com.spectralfergus.practice.tarotapp.utils.NetworkUtils;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-
+import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
+import com.spectralfergus.practice.tarotapp.utils.NetworkUtils;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+//import androidx.appcompat.app.AppCompatActivity;
+
+//import androidx.appcompat.app.AppCompatActivity;
+
+//import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ListItemOnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -46,12 +51,14 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     private ProgressBar progressIndicator;
     private View mainContent;
 
+    private CardViewModel mCardModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +90,15 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
         mainContent = (View) findViewById(R.id.main_content);
 
+        mCardModel = ViewModelProviders.of(this).get(CardViewModel.class);
+        final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
+            @Override
+            public void onChanged(List<Card> cards) {
+                cardAdapter.notifyDataSetChanged();
+            }
+        };
         loadCardData();
+        mCardModel.getCardList().observe(this, cardObserver);
     }
 
     void loadCardData() {
