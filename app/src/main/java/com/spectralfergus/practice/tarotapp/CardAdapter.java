@@ -4,12 +4,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
-    private Card[] cardList;
+    private List<Card> mCardList = new ArrayList<>(); // Don't want to deal with NullPointerExceptions in Java
+
     final private ListItemOnClickListener mListener;
 
     public interface ListItemOnClickListener {
@@ -29,17 +33,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        holder.bind(position);
+        Card curCard = mCardList.get(position);
+        holder.bind(curCard);
     }
 
     @Override
     public int getItemCount() {
-        return cardList != null ? cardList.length : 0;
+        return mCardList.size();
     }
 
-    public void setCardList(Card[] cards) {
-        cardList = cards;
-        notifyDataSetChanged();
+    public void setCardList(List<Card> cards) {
+        mCardList = cards;
+        notifyDataSetChanged(); //TODO: Replace NotifyDataSetChanged() with more granular notify methods
     }
 
     //==== INNER CLASS, CARD VIEW HOLDER
@@ -52,8 +57,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             itemView.setOnClickListener(this);
         }
 
-        private void bind(int position) {
-            ivCard.setImageDrawable(cardList[position].getImgDrawable());
+        private void bind(Card curCard) {
+            ivCard.setImageDrawable(curCard.getImgDrawable());
         }
 
         @Override

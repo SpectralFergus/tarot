@@ -9,8 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,12 +27,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
-//import androidx.appcompat.app.AppCompatActivity;
-
-//import androidx.appcompat.app.AppCompatActivity;
-
-//import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ListItemOnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -89,16 +85,17 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         tvDesc = findViewById(R.id.desc);
 //        ivCard = findViewById(R.id.iv_card);
 
-        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
-        mainContent = (View) findViewById(R.id.main_content);
-
         mCardModel = ViewModelProviders.of(this).get(CardViewModel.class);
         final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
             @Override
-            public void onChanged(List<Card> cards) {
-                cardAdapter.notifyDataSetChanged();
+            public void onChanged(@Nullable List<Card> cards) {
+                cardAdapter.setCardList(cards);
             }
         };
+
+        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
+        mainContent = (View) findViewById(R.id.main_content);
+
         loadCardData();
         mCardModel.getCardList().observe(this, cardObserver);
     }
@@ -150,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
 
 
     // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
-     public class FetchTarotAsyncTask extends AsyncTask<String, Void, Card[]> {
+     public class FetchTarotAsyncTask extends AsyncTask<String, Void, MutableLiveData<List<Card>>> {
         private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
 
         @Override
@@ -161,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         }
 
         @Override
-        protected Card[] doInBackground(String... strings) {
+        protected MutableLiveData<List<Card>> doInBackground(String... strings) {
             // BUILD URL
             Uri uri = Uri.parse(URI_BASE).buildUpon()
 //                    .appendPath("swkn")
@@ -180,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
             try {
                 String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
                 Card[] cards = JsonUtils.parseCardsFromJson(getApplicationContext(),jsonResponse);
+
                 return cards;
             } catch (IOException e) {
                 e.printStackTrace();
