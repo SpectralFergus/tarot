@@ -69,10 +69,11 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
                         .setAction("Action", null).show();
             }
         });
+        fab.hide();
 
         RecyclerView rvCardList = findViewById(R.id.recyclerview_card_images);
         rvCardList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        rvCardList.setHasFixedSize(false);
+        rvCardList.setHasFixedSize(true); // "size" refers to screen size, not item count.
 
         cardAdapter = new CardAdapter(this);
         rvCardList.setAdapter(cardAdapter);
