@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
                         .setAction("Action", null).show();
             }
         });
+        fab.hide();
 
         RecyclerView rvCardList = findViewById(R.id.recyclerview_card_images);
         rvCardList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
