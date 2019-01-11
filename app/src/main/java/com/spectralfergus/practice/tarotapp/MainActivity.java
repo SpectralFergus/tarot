@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         protected void onPreExecute() {
             super.onPreExecute();
             progressIndicator.setVisibility(View.VISIBLE);
-            mainContent.setVisibility(View.INVISIBLE);
+            mainContent.setVisibility(View.GONE);
         }
 
         @Override
