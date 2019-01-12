@@ -3,12 +3,11 @@ package com.spectralfergus.practice.tarotapp;
 import android.graphics.drawable.Drawable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "card_table")
+@Entity (tableName = "card_table")
 public class Card {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "name_short")
