@@ -22,7 +22,7 @@ public class JsonUtils {
                 value           str
                 value_int       int
                 suit            str
-                arcana            str
+                arcana          str
                 meaning_up      str
                 meaning_rev     str
                 desc            str
@@ -44,8 +44,9 @@ public class JsonUtils {
         String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", card.getString("name_short"));
         Drawable d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
 
-        return new Card( card.getString("name"),
+        return new Card(
                 card.getString("name_short"),
+                card.getString("name"),
                 card.getString("value"),
                 card.getInt("value_int"),
                 card.optString("suit"),
