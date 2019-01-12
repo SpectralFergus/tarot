@@ -1,6 +1,6 @@
 package com.spectralfergus.practice.tarotapp;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import androidx.room.*;
 
 import java.util.List;
@@ -20,6 +20,6 @@ public interface CardDao {
     @Query("DELETE FROM card_table")
     void deleteAllCards();
 
-    @Query("SELECT * FROM card_table ORDER BY valueInt, name_short")
-    MutableLiveData<List<Card>> getAllCards();
+    @Query("SELECT * FROM card_table ORDER BY value_int, name_short")
+    LiveData<List<Card>> getAllCards();
 }

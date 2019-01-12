@@ -2,33 +2,28 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
 public class CardRepository {
     private CardDao cardDao;
-    private MutableLiveData<List<Card>> cardList;
+    private LiveData<List<Card>> cardList;
     public CardRepository(Application application) {
-//        CardDatabase db = CardDatabase.getInstance(application);
-//        cardDao = db.cardDao();
-//        cardList = cardDao.getCardList();
+        CardDatabase db = CardDatabase.getInstance(application);
+        cardDao = db.cardDao();
+        cardList = cardDao.getAllCards();
     }
 
     // == API Functions ==
     public void insert(Card c) {
         new InsertCardAsyncTask(cardDao).execute(c);
     }
-    public void update(Card c) {
+    public void update(Card c) { new UpdateCardAsyncTask(cardDao).execute(c);}
+    public void delete(Card c) { new DeleteCardAsyncTask(cardDao).execute(c);}
+    public void deleteAllCards() { new DeleteAllCardsAsyncTask(cardDao).execute();}
 
-    }
-    public void delete(Card c) {
-
-    }
-    public void deleteAllCards() {
-
-    }
-    public MutableLiveData<List<Card>> getCardList() {
+    public LiveData<List<Card>> getCardList() {
         return cardList;
     }
 

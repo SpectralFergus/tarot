@@ -1,9 +1,6 @@
 package com.spectralfergus.practice.tarotapp;
 
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,20 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
-import com.spectralfergus.practice.tarotapp.utils.NetworkUtils;
-import org.json.JSONException;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ListItemOnClickListener {
@@ -43,12 +33,14 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
 //    Drawable d;
 
     private CardAdapter cardAdapter;
-    private Card[] cardsList;
+    private List<Card> cardsList;
 
     private ProgressBar progressIndicator;
     private View mainContent;
 
-    private CardViewModel mCardModel;
+    private CardViewModel cardModel;
+
+    private CardDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,23 +77,24 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         tvDesc = findViewById(R.id.desc);
 //        ivCard = findViewById(R.id.iv_card);
 
-        mCardModel = ViewModelProviders.of(this).get(CardViewModel.class);
+        cardModel = ViewModelProviders.of(this).get(CardViewModel.class);
         final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
             @Override
             public void onChanged(@Nullable List<Card> cards) {
                 cardAdapter.setCardList(cards);
             }
         };
+        cardModel.getCardList().observe(this, cardObserver);
 
         progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
         mainContent = (View) findViewById(R.id.main_content);
 
-        loadCardData();
-        mCardModel.getCardList().observe(this, cardObserver);
+        db = CardDatabase.getInstance(this);
+//        loadCardData();
     }
 
     void loadCardData() {
-        new FetchTarotAsyncTask().execute();
+//        new FetchTarotAsyncTask().execute();
     }
 
     @Override
@@ -136,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
 
     @Override
     public void onClick(int position) {
-        Card c = cardsList[position];
+        Card c = cardsList.get(position);
         tvName.setText(c.getName());
         tvValue_int.setText("Rank: " + c.getValueInt());
         tvType.setText(String.format("%s Arcana", c.getArcana()));
@@ -146,63 +139,63 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     }
 
 
-    // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
-     public class FetchTarotAsyncTask extends AsyncTask<String, Void, MutableLiveData<List<Card>>> {
-        private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressIndicator.setVisibility(View.VISIBLE);
-            mainContent.setVisibility(View.GONE);
-        }
-
-        @Override
-        protected MutableLiveData<List<Card>> doInBackground(String... strings) {
-            // BUILD URL
-            Uri uri = Uri.parse(URI_BASE).buildUpon()
-//                    .appendPath("swkn")
-                    .appendPath("random")
-                    .appendQueryParameter("n","3")
-                    .build();
-            URL url = null;
-            try {
-                url = new URL(uri.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Log.e(TAG, "doInBackground: MalformedURL");
-            }
-
-            // QUERY OVER NETWORK
-            try {
-                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
-                Card[] cards = JsonUtils.parseCardsFromJson(getApplicationContext(),jsonResponse);
-
-                return cards;
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e(TAG, "doInBackground: I/O err");
-                return null;
-            } catch (JSONException e) {
-                Log.e(TAG, "doInBackground: JSON err");
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Card[] cards) {
-            super.onPostExecute(cards);
-            if(cards != null) {
-                cardsList = cards;
-                cardAdapter.setCardList(cards);
-                onClick(0);
-
-                progressIndicator.setVisibility(View.GONE);
-                mainContent.setVisibility(View.VISIBLE);
-            } else {
-                //TODO: error message display
-            }
-        }
-    }
+//    // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
+//     public class FetchTarotAsyncTask extends AsyncTask<String, Void, MutableLiveData<List<Card>>> {
+//        private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            progressIndicator.setVisibility(View.VISIBLE);
+//            mainContent.setVisibility(View.GONE);
+//        }
+//
+//        @Override
+//        protected MutableLiveData<List<Card>> doInBackground(String... strings) {
+//            // BUILD URL
+//            Uri uri = Uri.parse(URI_BASE).buildUpon()
+////                    .appendPath("swkn")
+//                    .appendPath("random")
+//                    .appendQueryParameter("n","3")
+//                    .build();
+//            URL url = null;
+//            try {
+//                url = new URL(uri.toString());
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "doInBackground: MalformedURL");
+//            }
+//
+//            // QUERY OVER NETWORK
+//            try {
+//                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
+//                List<Card> cards = JsonUtils.parseCardsFromJson(getApplicationContext(),jsonResponse);
+//
+//                return cards;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "doInBackground: I/O err");
+//                return null;
+//            } catch (JSONException e) {
+//                Log.e(TAG, "doInBackground: JSON err");
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Card> cards) {
+//            super.onPostExecute(cards);
+//            if(cards != null) {
+//                cardsList = cards;
+//                cardAdapter.setCardList(cards);
+//                onClick(0);
+//
+//                progressIndicator.setVisibility(View.GONE);
+//                mainContent.setVisibility(View.VISIBLE);
+//            } else {
+//                //TODO: error message display
+//            }
+//        }
+//    }
 }

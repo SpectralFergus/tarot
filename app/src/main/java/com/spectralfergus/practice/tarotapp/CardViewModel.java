@@ -1,17 +1,36 @@
 package com.spectralfergus.practice.tarotapp;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class CardViewModel extends ViewModel {
-    private MutableLiveData<List<Card>> mCardList;
+public class CardViewModel extends AndroidViewModel {
+    private CardRepository repository;
+    private LiveData<List<Card>> cardList;
 
-    public MutableLiveData<List<Card>> getCardList() {
-        if (mCardList == null) {
-            mCardList = new MutableLiveData<>();
-        }
-        return mCardList;
+    public CardViewModel(@NonNull Application application) {
+        super(application);
+        repository = new CardRepository(application);
+        cardList = repository.getCardList();
+    }
+
+    public void insert(Card c) {
+        repository.insert(c);
+    }
+    public void update(Card c) {
+        repository.update(c);
+    }
+    public void delete(Card c) {
+        repository.delete(c);
+    }
+    public void deleteAllCards() {
+        repository.deleteAllCards();
+    }
+
+    public LiveData<List<Card>> getCardList() {
+        return cardList;
     }
 }

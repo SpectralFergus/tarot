@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         private void bind(Card curCard) {
-            ivCard.setImageDrawable(curCard.getImgDrawable());
+//            ivCard.setImageDrawable(curCard.getImgDrawable());
         }
 
         @Override

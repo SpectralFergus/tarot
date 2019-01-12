@@ -53,7 +53,6 @@ public class JsonUtils {
                 card.getString("type"),
                 card.getString("meaning_up"),
                 card.getString("meaning_rev"),
-                card.getString("desc"),
-                d);
+                card.getString("desc"));
     }
 }
