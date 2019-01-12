@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         tvName = findViewById(R.id.name);
 //        tvNameShort = findViewById(R.id.name_short);
 //        tvValue = findViewById(R.id.value);
-        tvValue_int = findViewById(R.id.value_int);
+        tvValue_int = findViewById(R.id.valueInt);
 //        tvSuit = findViewById(R.id.suit);
         tvType = findViewById(R.id.arcana);
         tvMeaningUp = findViewById(R.id.meaning_up);
@@ -138,10 +138,10 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     public void onClick(int position) {
         Card c = cardsList[position];
         tvName.setText(c.getName());
-        tvValue_int.setText("Rank: " + c.getValue_int());
+        tvValue_int.setText("Rank: " + c.getValueInt());
         tvType.setText(String.format("%s Arcana", c.getArcana()));
-        tvMeaningUp.setText(c.getMeaning_up());
-        tvMeaningRev.setText(c.getMeaning_rev());
+        tvMeaningUp.setText(c.getMeaningUp());
+        tvMeaningRev.setText(c.getMeaningDown());
         tvDesc.setText(c.getDesc());
     }
 
