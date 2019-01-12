@@ -3,9 +3,10 @@ package com.spectralfergus.practice.tarotapp;
 import android.graphics.drawable.Drawable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "card_table")
 public class Card {
     @PrimaryKey
     private int id;
@@ -23,6 +24,7 @@ public class Card {
     private String meaningDown;         // Imprudence, incapacity... (ekelen name: meaning_rev)
     private String desc;                // He is riding in full course, as if scattering his enemies...
     @ColumnInfo(name = "img_drawable")
+//    @Ignore might be better to just fetch from web every time?
     private Drawable imgDrawable;
 
     // Constructor allows room to re-create Card objects from database

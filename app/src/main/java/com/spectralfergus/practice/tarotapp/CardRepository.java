@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 public class CardRepository {
-//    private CardDao cardDao;
+    private CardDao cardDao;
     private MutableLiveData<List<Card>> cardList;
     public CardRepository(Application application) {
 //        CardDatabase db = CardDatabase.getInstance(application);
@@ -40,7 +40,7 @@ public class CardRepository {
         }
         @Override
         protected Void doInBackground(Card... cards) {
-            nodeDao.insert(cards[0]);
+            cardDao.insert(cards[0]);
             return null;
         }
     }
@@ -52,7 +52,7 @@ public class CardRepository {
         }
         @Override
         protected Void doInBackground(Card... cards) {
-            nodeDao.update(cards[0]);
+            cardDao.update(cards[0]);
             return null;
         }
     }
@@ -64,7 +64,7 @@ public class CardRepository {
         }
         @Override
         protected Void doInBackground(Card... cards) {
-            nodeDao.delete(cards[0]);
+            cardDao.delete(cards[0]);
             return null;
         }
     }
@@ -76,7 +76,7 @@ public class CardRepository {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            nodeDao.deleteAllCards();
+            cardDao.deleteAllCards();
             return null;
         }
     }
