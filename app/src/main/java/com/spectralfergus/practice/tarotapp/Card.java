@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity (tableName = "card_table")
+@Entity(tableName = "card_table")
 public class Card {
     @PrimaryKey(autoGenerate = true)
     private int id;
