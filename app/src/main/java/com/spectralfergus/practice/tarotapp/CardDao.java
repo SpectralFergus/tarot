@@ -1,7 +1,7 @@
 package com.spectralfergus.practice.tarotapp;
 
-import androidx.lifecycle.LiveData;
-import androidx.room.*;
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.*;
 
 import java.util.List;
 

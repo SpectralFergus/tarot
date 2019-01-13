@@ -1,20 +1,19 @@
 package com.spectralfergus.practice.tarotapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -80,16 +79,15 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         cardModel = ViewModelProviders.of(this).get(CardViewModel.class);
         final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
             @Override
-            public void onChanged(@Nullable List<Card> cards) {
+            public void onChanged(List<Card> cards) {
                 cardAdapter.setCardList(cards);
             }
         };
         cardModel.getCardList().observe(this, cardObserver);
+        db = CardDatabase.getInstance(this);
 
         progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
         mainContent = (View) findViewById(R.id.main_content);
-
-        db = CardDatabase.getInstance(this);
 //        loadCardData();
     }
 
