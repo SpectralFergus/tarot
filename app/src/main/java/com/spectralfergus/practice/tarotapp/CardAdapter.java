@@ -1,6 +1,7 @@
 package com.spectralfergus.practice.tarotapp;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,13 +62,32 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         private void bind(Card curCard) {
-//            ivCard.setImageDrawable(curCard.getImgDrawable());
+            new FetchImageAsyncTask().execute(curCard);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
             mListener.onClick(position);
+        }
+
+        public class FetchImageAsyncTask extends AsyncTask<Card, Void, Drawable> {
+            @Override
+            protected Drawable doInBackground(Card... cards) {
+                Drawable d = null;
+                String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", cards[0].getNameShort());
+                try {
+                    d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return d;
+            }
+            @Override
+            protected void onPostExecute(Drawable drawable) {
+                super.onPostExecute(drawable);
+                ivCard.setImageDrawable(drawable);
+            }
         }
     }
 }

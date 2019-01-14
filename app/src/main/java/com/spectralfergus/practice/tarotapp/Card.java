@@ -23,10 +23,9 @@ public class Card {
     @ColumnInfo(name = "meaning_down")
     private String meaningDown;         // Imprudence, incapacity... (ekelen name: meaning_rev)
     private String desc;                // He is riding in full course, as if scattering his enemies...
-    @ColumnInfo(name = "img_drawable")
-
-    @Ignore //might be better to just fetch from web every time?
-    private Drawable imgDrawable;
+//    @ColumnInfo(name = "img_drawable")
+//    @Ignore //might be better to just fetch from web every time?
+//    private Drawable imgDrawable;
 
     // Constructor allows room to re-create Card objects from database
     public Card(String nameShort, String name, String value, int valueInt, String suit, String arcana, String meaningUp, String meaningDown, String desc/*, Drawable imgDrawable*/) {
@@ -43,7 +42,6 @@ public class Card {
     }
 
     // == getters ==
-
     public int getId() {
         return id;
     }
@@ -84,11 +82,10 @@ public class Card {
         return desc;
     }
 
-    public Drawable getImgDrawable() {
-//        //todo: migrate async task that fetches drawable to Repository, then look into storing internally.
-
-        return imgDrawable;
-    }
+//    public Drawable getImgDrawable() {
+////        //todo: migrate async task that fetches drawable to Repository, then look into storing internally.
+//        return imgDrawable;
+//    }
 
     // == setters ==
     // only value that does not appear in constructor
@@ -96,6 +93,10 @@ public class Card {
     public void setId(int id) {
         this.id = id;
     }
+
+//    public void setImgDrawable(Drawable d) {
+//        imgDrawable = d;
+//    }
 }
 
 

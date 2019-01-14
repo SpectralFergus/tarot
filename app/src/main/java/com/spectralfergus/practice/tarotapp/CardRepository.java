@@ -2,9 +2,19 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.view.View;
+import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
+import com.spectralfergus.practice.tarotapp.utils.NetworkUtils;
+import org.json.JSONException;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class CardRepository {
@@ -76,5 +86,65 @@ public class CardRepository {
             return null;
         }
     }
+
+    // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
+//     public static class FetchTarotAsyncTask extends AsyncTask<String, Void, LiveData<List<Card>>> {
+//        private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            progressIndicator.setVisibility(View.VISIBLE);
+//            mainContent.setVisibility(View.GONE);
+//        }
+//
+//        @Override
+//        protected LiveData<List<Card>> doInBackground(String... strings) {
+//            // BUILD URL
+//            Uri uri = Uri.parse(URI_BASE).buildUpon()
+////                    .appendPath("swkn")
+//                    .appendPath("random")
+//                    .appendQueryParameter("n","3")
+//                    .build();
+//            URL url = null;
+//            try {
+//                url = new URL(uri.toString());
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "doInBackground: MalformedURL");
+//            }
+//
+//            // QUERY OVER NETWORK
+//            try {
+//                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
+//                List<Card> cards = JsonUtils.parseCardsFromJson(getApplicationContext(),jsonResponse);
+//
+//                return cards;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                Log.e(TAG, "doInBackground: I/O err");
+//                return null;
+//            } catch (JSONException e) {
+//                Log.e(TAG, "doInBackground: JSON err");
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Card> cards) {
+//            super.onPostExecute(cards);
+//            if(cards != null) {
+//                cardsList = cards;
+//                cardAdapter.setCardList(cards);
+//                onClick(0);
+//
+//                progressIndicator.setVisibility(View.GONE);
+//                mainContent.setVisibility(View.VISIBLE);
+//            } else {
+//                //TODO: error message display
+//            }
+//        }
+//    }
 
 }

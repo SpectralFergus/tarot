@@ -5,12 +5,18 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 @Database(entities = {Card.class}, version = 1)
 public abstract class CardDatabase extends RoomDatabase {
-
     private static CardDatabase instance;
 
     public abstract CardDao cardDao();
@@ -26,7 +32,7 @@ public abstract class CardDatabase extends RoomDatabase {
         return instance;
     }
 
-    private static  RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
@@ -43,7 +49,8 @@ public abstract class CardDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            cardDao.insert(new Card(
+            cardDao.deleteAllCards();
+            Card c = new Card(
                     "swkn",
                     "Knight of Swords",
                     "knight",
@@ -54,7 +61,8 @@ public abstract class CardDatabase extends RoomDatabase {
                     "Iunno, just sthgink n' stuff",
                     "Test test test hope this works"
 //                    null
-            ));
+            );
+            cardDao.insert(c);
             return null;
         }
     }

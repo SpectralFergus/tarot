@@ -2,6 +2,8 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ListItemOnClickListener {
@@ -39,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     private View mainContent;
 
     private CardViewModel cardModel;
-
-    private CardDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +89,31 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
             }
         };
         cardModel.getCardList().observe(this, cardObserver);
-        db = CardDatabase.getInstance(this);
 
         progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
         mainContent = (View) findViewById(R.id.main_content);
 //        loadCardData();
+
+        //for debugging purposes
+        cardModel.deleteAllCards();
+        Card c = new Card(
+                "swkn",
+                "Knight of Swords",
+                "knight",
+                12,
+                "swords",
+                "minor",
+                "Iunno, just knights n' stuff",
+                "Iunno, just sthgink n' stuff",
+                "Test test test hope this works"
+//                    null
+        );
+        cardModel.insert(c);
     }
 
     void loadCardData() {
 //        new FetchTarotAsyncTask().execute();
+
     }
 
     @Override
@@ -129,73 +148,14 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
 
     @Override
     public void onClick(int position) {
-        Card c = cardsList.get(position);
-        tvName.setText(c.getName());
-        tvValue_int.setText("Rank: " + c.getValueInt());
-        tvType.setText(String.format("%s Arcana", c.getArcana()));
-        tvMeaningUp.setText(c.getMeaningUp());
-        tvMeaningRev.setText(c.getMeaningDown());
-        tvDesc.setText(c.getDesc());
+        if (cardsList.size() > 0) {
+            Card c = cardsList.get(position);
+            tvName.setText(c.getName());
+            tvValue_int.setText("Rank: " + c.getValueInt());
+            tvType.setText(String.format("%s Arcana", c.getArcana()));
+            tvMeaningUp.setText(c.getMeaningUp());
+            tvMeaningRev.setText(c.getMeaningDown());
+            tvDesc.setText(c.getDesc());
+        }
     }
-
-
-//    // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
-//     public class FetchTarotAsyncTask extends AsyncTask<String, Void, MutableLiveData<List<Card>>> {
-//        private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            progressIndicator.setVisibility(View.VISIBLE);
-//            mainContent.setVisibility(View.GONE);
-//        }
-//
-//        @Override
-//        protected MutableLiveData<List<Card>> doInBackground(String... strings) {
-//            // BUILD URL
-//            Uri uri = Uri.parse(URI_BASE).buildUpon()
-////                    .appendPath("swkn")
-//                    .appendPath("random")
-//                    .appendQueryParameter("n","3")
-//                    .build();
-//            URL url = null;
-//            try {
-//                url = new URL(uri.toString());
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//                Log.e(TAG, "doInBackground: MalformedURL");
-//            }
-//
-//            // QUERY OVER NETWORK
-//            try {
-//                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
-//                List<Card> cards = JsonUtils.parseCardsFromJson(getApplicationContext(),jsonResponse);
-//
-//                return cards;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                Log.e(TAG, "doInBackground: I/O err");
-//                return null;
-//            } catch (JSONException e) {
-//                Log.e(TAG, "doInBackground: JSON err");
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Card> cards) {
-//            super.onPostExecute(cards);
-//            if(cards != null) {
-//                cardsList = cards;
-//                cardAdapter.setCardList(cards);
-//                onClick(0);
-//
-//                progressIndicator.setVisibility(View.GONE);
-//                mainContent.setVisibility(View.VISIBLE);
-//            } else {
-//                //TODO: error message display
-//            }
-//        }
-//    }
 }

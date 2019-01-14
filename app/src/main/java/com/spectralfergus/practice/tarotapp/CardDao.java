@@ -7,7 +7,6 @@ import java.util.List;
 
 @Dao
 public interface CardDao {
-
     @Insert
     void insert(Card card);
 
