@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
             @Override
             public void onChanged(List<Card> cards) {
+                Toast.makeText(MainActivity.this, "onChanged observer", Toast.LENGTH_SHORT).show();
                 cardAdapter.setCardList(cards);
             }
         };

@@ -41,9 +41,8 @@ public class JsonUtils {
     }
 
     private static Card pluckJsonCard(JSONObject card) throws IOException, JSONException {
-        String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", card.getString("name_short"));
-        Drawable d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
-
+//        String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", card.getString("name_short"));
+//        Drawable d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
         return new Card(
                 card.getString("name_short"),
                 card.getString("name"),

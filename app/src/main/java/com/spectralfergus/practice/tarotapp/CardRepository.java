@@ -2,6 +2,7 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
 import java.util.List;
@@ -75,4 +76,5 @@ public class CardRepository {
             return null;
         }
     }
+
 }
