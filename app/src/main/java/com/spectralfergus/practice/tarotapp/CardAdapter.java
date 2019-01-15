@@ -1,15 +1,23 @@
 package com.spectralfergus.practice.tarotapp;
 
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
-    private Card[] cardList;
+    private List<Card> mCardList = new ArrayList<>(); // Don't want to deal with NullPointerExceptions in Java
+
     final private ListItemOnClickListener mListener;
 
     public interface ListItemOnClickListener {
@@ -29,17 +37,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        holder.bind(position);
+        Card curCard = mCardList.get(position);
+        holder.bind(curCard);
     }
 
     @Override
     public int getItemCount() {
-        return cardList != null ? cardList.length : 0;
+        return mCardList.size();
     }
 
-    public void setCardList(Card[] cards) {
-        cardList = cards;
-        notifyDataSetChanged();
+    public void setCardList(List<Card> cards) {
+        mCardList = cards;
+        notifyDataSetChanged(); //TODO: Replace NotifyDataSetChanged() with more granular notify methods
     }
 
     //==== INNER CLASS, CARD VIEW HOLDER
@@ -52,14 +61,33 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             itemView.setOnClickListener(this);
         }
 
-        private void bind(int position) {
-            ivCard.setImageDrawable(cardList[position].getImgDrawable());
+        private void bind(Card curCard) {
+            new FetchImageAsyncTask().execute(curCard);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
             mListener.onClick(position);
+        }
+
+        public class FetchImageAsyncTask extends AsyncTask<Card, Void, Drawable> {
+            @Override
+            protected Drawable doInBackground(Card... cards) {
+                Drawable d = null;
+                String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", cards[0].getNameShort());
+                try {
+                    d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return d;
+            }
+            @Override
+            protected void onPostExecute(Drawable drawable) {
+                super.onPostExecute(drawable);
+                ivCard.setImageDrawable(drawable);
+            }
         }
     }
 }
