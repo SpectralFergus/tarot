@@ -12,9 +12,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonUtils {
-    public static Card[] parseCardsFromJson(Context context, String jsonString) throws JSONException, IOException {
+    public static List<Card> parseCardsFromJson(Context context, String jsonString) throws JSONException, IOException {
         /* SCHEMA
             cards[]             []
                 name            str
@@ -31,10 +33,11 @@ public class JsonUtils {
         int hits = cardsJSON.getInt("nhits");
 //        if(hits < 2) return new Card[]{pluckJsonCard(cardsJSON.getJSONObject("card"))};
         JSONArray jsonArray = cardsJSON.getJSONArray("cards");
-        Card[] parsedCards = new Card[hits];
+        List<Card> parsedCards = new ArrayList<>(hits);
+
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonCard = jsonArray.getJSONObject(i);
-            parsedCards[i] = pluckJsonCard(jsonCard);
+            parsedCards.add(pluckJsonCard(jsonCard));
         }
 
         return parsedCards;
