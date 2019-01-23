@@ -1,6 +1,8 @@
 package com.spectralfergus.practice.tarotapp;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -75,17 +77,29 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         tvDesc = findViewById(R.id.desc);
 //        ivCard = findViewById(R.id.iv_card);
 
+        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
+        mainContent = (View) findViewById(R.id.main_content);
+        showLoadingScreen();
+
         cardModel = ViewModelProviders.of(this).get(CardViewModel.class);
 
-        final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
+        cardModel.getCardList().observe(this, new Observer<List<Card>>() {
             @Override
             public void onChanged(List<Card> cards) {
 //                Toast.makeText(MainActivity.this, "onChanged observer", Toast.LENGTH_SHORT).show();
-                cardAdapter.setCardList(cards);
-                onClick(cardModel.getISelected().getValue());
+//                if (cards.size() == 0) {
+//                    showLoadingScreen();
+//                } else {
+                    cardAdapter.setCardList(cards);
+                    hideLoadingScreen();
+                    LiveData<Integer> iSelected = cardModel.getISelected();
+                    if (iSelected != null) {
+                        int i = iSelected.getValue() == null ? 0 : iSelected.getValue();
+                        onClick(i);
+                    }
+//                }
             }
-        };
-        cardModel.getCardList().observe(this, cardObserver);
+        });
 
         cardModel.getISelected().observe(this, new Observer<Integer>() {
             @Override
@@ -102,12 +116,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
             }
         });
 
-        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
-        mainContent = (View) findViewById(R.id.main_content);
-
         //for debugging purposes
-        cardModel.deleteAllCards();
-        loadCardData();
+//        cardModel.deleteAllCards();
+//        loadCardData();
 //        Card c = new Card(
 //                "swkn",
 //                "Knight of Swords",
@@ -125,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
 
     void loadCardData() {
 //        new FetchNCardsAsyncTask().execute();
+        cardModel.deleteAllCards();
+        cardModel.fetchRandomTarot(3);
     }
 
     void showLoadingScreen() {

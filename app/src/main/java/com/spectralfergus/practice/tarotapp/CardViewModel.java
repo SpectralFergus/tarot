@@ -19,6 +19,7 @@ public class CardViewModel extends AndroidViewModel {
         cardList = repository.getCardList();
         iSelected = new MutableLiveData<>();
         iSelected.setValue(0);
+        deleteAllCards();
         repository.fetchRandomTarot(3);
     }
 
@@ -34,6 +35,7 @@ public class CardViewModel extends AndroidViewModel {
     public void deleteAllCards() {
         repository.deleteAllCards();
     }
+    public void fetchRandomTarot(int n) {repository.fetchRandomTarot(n);}
 
     public LiveData<List<Card>> getCardList() {
         return cardList;

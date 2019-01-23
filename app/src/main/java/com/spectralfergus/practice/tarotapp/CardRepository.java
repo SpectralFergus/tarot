@@ -92,26 +92,11 @@ public class CardRepository {
 
     // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
     private static class FetchNCardsAsyncTask extends AsyncTask<Integer, Void, Void> {
-        private WeakReference<MainActivity> mainActivityWeakReference;
         private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
-        private CardDao cardDao;
+        CardDao cardDao;
 
-        FetchNCardsAsyncTask(MainActivity context, CardDao cardDao) {
-            mainActivityWeakReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // get a reference to the activity if it is still there
-            MainActivity mainActivity = mainActivityWeakReference.get();
-            if (mainActivity == null || mainActivity.isFinishing()) return;
-
-            // modify the activity's UI
-            ProgressBar progressIndicator = mainActivity.findViewById(R.id.progress_circular);
-            View mainContent = mainActivity.findViewById(R.id.main_content);
-            progressIndicator.setVisibility(View.VISIBLE);
-            mainContent.setVisibility(View.GONE);
+        private FetchNCardsAsyncTask(CardDao cardDao) {
+            this.cardDao = cardDao;
         }
 
         @Override
@@ -149,21 +134,6 @@ public class CardRepository {
 //                return null;
             }
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            // get a reference to the activity if it is still there
-            MainActivity mainActivity = mainActivityWeakReference.get();
-            if (mainActivity == null || mainActivity.isFinishing()) return;
-
-            // modify the activity's UI
-            ProgressBar progressIndicator = mainActivity.findViewById(R.id.progress_circular);
-            View mainContent = mainActivity.findViewById(R.id.main_content);
-            progressIndicator.setVisibility(View.GONE);
-            mainContent.setVisibility(View.VISIBLE);
-//            onClick(0);
         }
     }
 }
