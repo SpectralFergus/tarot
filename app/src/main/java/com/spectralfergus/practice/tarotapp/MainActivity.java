@@ -12,12 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ListItemOnClickListener {
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
 //                if (cards.size() == 0) {
 //                    showLoadingScreen();
 //                } else {
+                Log.d(TAG, "myTrace onChanged: " + Arrays.toString(cards.toArray()));
                     cardAdapter.setCardList(cards);
                     hideLoadingScreen();
                     LiveData<Integer> iSelected = cardModel.getISelected();
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         cardModel.getISelected().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer i) {
-                if (cardAdapter.getItemCount()>0) {
+                if (cardAdapter.getItemCount()>0 && i < cardAdapter.getItemCount()) {
                     Card c = cardModel.getCardList().getValue().get(i);
                     tvName.setText(c.getName());
                     tvValue_int.setText("Rank: " + c.getValueInt());
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
             return true;
         }
         if (id == R.id.action_reset) {
+            showLoadingScreen();
             loadCardData();
         }
 

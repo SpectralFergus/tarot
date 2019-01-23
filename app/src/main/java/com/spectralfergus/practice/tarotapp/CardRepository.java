@@ -121,6 +121,7 @@ public class CardRepository {
                 String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
                 List<Card> cards = JsonUtils.parseCardsFromJson(jsonResponse);
                 for(Card c: cards) {
+                    Log.d(TAG, "myTrace inserting card: " + c.getName());
                     cardDao.insert(c);
                 }
 //                return cards;

@@ -82,7 +82,12 @@ public class Card {
         return desc;
     }
 
-//    public Drawable getImgDrawable() {
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    //    public Drawable getImgDrawable() {
 ////        //todo: migrate async task that fetches drawable to Repository, then look into storing internally.
 //        return imgDrawable;
 //    }

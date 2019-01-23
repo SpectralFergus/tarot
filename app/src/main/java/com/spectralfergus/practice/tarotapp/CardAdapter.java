@@ -62,6 +62,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         private void bind(Card curCard) {
+            ivCard.setImageDrawable(null);
             new FetchImageAsyncTask().execute(curCard);
         }
 
