@@ -173,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.action_reset) {
+        if (id == R.id.action_new_cards) {
+            showLoadingScreen();
             loadCardData();
         }
 
