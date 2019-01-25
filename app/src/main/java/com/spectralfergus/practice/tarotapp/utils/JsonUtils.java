@@ -1,22 +1,16 @@
 package com.spectralfergus.practice.tarotapp.utils;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 import com.spectralfergus.practice.tarotapp.Card;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JsonUtils {
-    public static List<Card> parseCardsFromJson(Context context, String jsonString) throws JSONException, IOException {
+    public static List<Card> parseCardsFromJson(String jsonString) throws JSONException, IOException {
         /* SCHEMA
             cards[]             []
                 name            str

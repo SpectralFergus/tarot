@@ -17,11 +17,11 @@ import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private List<Card> mCardList = new ArrayList<>(); // Don't want to deal with NullPointerExceptions in Java
-
     final private ListItemOnClickListener mListener;
 
     public interface ListItemOnClickListener {
         void onClick(int position);
+
     }
 
     public CardAdapter(ListItemOnClickListener activity) {
@@ -62,6 +62,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
 
         private void bind(Card curCard) {
+            ivCard.setImageDrawable(null);
             new FetchImageAsyncTask().execute(curCard);
         }
 

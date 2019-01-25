@@ -2,10 +2,8 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -20,15 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
-import com.spectralfergus.practice.tarotapp.utils.NetworkUtils;
-import org.json.JSONException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardAdapter.ListItemOnClickListener {
@@ -70,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         });
         fab.hide();
 
-        RecyclerView rvCardList = findViewById(R.id.recyclerview_card_images);
+        final RecyclerView rvCardList = findViewById(R.id.recyclerview_card_images);
         rvCardList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvCardList.setHasFixedSize(true); // "size" refers to screen size, not item count.
 
@@ -88,22 +79,35 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         tvDesc = findViewById(R.id.desc);
 //        ivCard = findViewById(R.id.iv_card);
 
+        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
+        mainContent = (View) findViewById(R.id.main_content);
+        showLoadingScreen();
+
         cardModel = ViewModelProviders.of(this).get(CardViewModel.class);
 
-        final Observer<List<Card>> cardObserver = new Observer<List<Card>>() {
+        cardModel.getCardList().observe(this, new Observer<List<Card>>() {
             @Override
             public void onChanged(List<Card> cards) {
 //                Toast.makeText(MainActivity.this, "onChanged observer", Toast.LENGTH_SHORT).show();
-                cardAdapter.setCardList(cards);
-                onClick(cardModel.getISelected().getValue());
+//                if (cards.size() == 0) {
+//                    showLoadingScreen();
+//                } else {
+                Log.d(TAG, "myTrace onChanged: " + Arrays.toString(cards.toArray()));
+                    cardAdapter.setCardList(cards);
+                    hideLoadingScreen();
+                    LiveData<Integer> iSelected = cardModel.getISelected();
+                    if (iSelected != null) {
+                        int i = iSelected.getValue() == null ? 0 : iSelected.getValue();
+                        onClick(i);
+                    }
+//                }
             }
-        };
-        cardModel.getCardList().observe(this, cardObserver);
+        });
 
         cardModel.getISelected().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer i) {
-                if (cardAdapter.getItemCount()>0) {
+                if (cardAdapter.getItemCount()>0 && i < cardAdapter.getItemCount()) {
                     Card c = cardModel.getCardList().getValue().get(i);
                     tvName.setText(c.getName());
                     tvValue_int.setText("Rank: " + c.getValueInt());
@@ -115,12 +119,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
             }
         });
 
-        progressIndicator = (ProgressBar) findViewById(R.id.progress_circular);
-        mainContent = (View) findViewById(R.id.main_content);
-
         //for debugging purposes
-        cardModel.deleteAllCards();
-        loadCardData();
+//        cardModel.deleteAllCards();
+//        loadCardData();
 //        Card c = new Card(
 //                "swkn",
 //                "Knight of Swords",
@@ -137,7 +138,9 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     }
 
     void loadCardData() {
-        new FetchTarotAsyncTask().execute();
+//        new FetchNCardsAsyncTask().execute();
+        cardModel.deleteAllCards();
+        cardModel.fetchRandomTarot(3);
     }
 
     void showLoadingScreen() {
@@ -184,61 +187,5 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     @Override
     public void onClick(int position) {
         cardModel.setiSelected(position);
-    }
-
-
-
-    // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
-    public class FetchTarotAsyncTask extends AsyncTask<String, Void, Void> {
-        private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showLoadingScreen();
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            // BUILD URL
-            Uri uri = Uri.parse(URI_BASE).buildUpon()
-//                    .appendPath("swkn")
-                    .appendPath("random")
-                    .appendQueryParameter("n","3")
-                    .build();
-            URL url = null;
-            try {
-                url = new URL(uri.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Log.e(TAG, "doInBackground: MalformedURL");
-            }
-
-            // QUERY OVER NETWORK
-            try {
-                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
-                List<Card> cards = JsonUtils.parseCardsFromJson(getApplicationContext(),jsonResponse);
-                for(Card c: cards) {
-                    cardModel.insert(c);
-                }
-//                return cards;
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e(TAG, "doInBackground: I/O err");
-//                return null;
-            } catch (JSONException e) {
-                Log.e(TAG, "doInBackground: JSON err");
-                e.printStackTrace();
-//                return null;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            hideLoadingScreen();
-            onClick(0);
-        }
     }
 }

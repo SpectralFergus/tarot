@@ -49,20 +49,21 @@ public abstract class CardDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            cardDao.deleteAllCards();
-            Card c = new Card(
-                    "swkn",
-                    "Knight of Swords",
-                    "knight",
-                    12,
-                    "swords",
-                    "minor",
-                    "Iunno, just knights n' stuff",
-                    "Iunno, just sthgink n' stuff",
-                    "Test test test hope this works"
-//                    null
-            );
-            cardDao.insert(c);
+//            cardDao.deleteAllCards();
+//            cardDao.fetchRandomTarot(3);
+//            Card c = new Card(
+//                    "swkn",
+//                    "Knight of Swords",
+//                    "knight",
+//                    12,
+//                    "swords",
+//                    "minor",
+//                    "Iunno, just knights n' stuff",
+//                    "Iunno, just sthgink n' stuff",
+//                    "Test test test hope this works"
+////                    null
+//            );
+//            cardDao.insert(c);
             return null;
         }
     }

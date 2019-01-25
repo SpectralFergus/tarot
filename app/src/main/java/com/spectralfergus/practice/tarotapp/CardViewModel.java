@@ -18,7 +18,9 @@ public class CardViewModel extends AndroidViewModel {
         repository = new CardRepository(application);
         cardList = repository.getCardList();
         iSelected = new MutableLiveData<>();
-        iSelected.setValue(0);
+        if (cardList.getValue() != null && cardList.getValue().size() <= 0) {
+            fetchRandomTarot(3);
+        }
     }
 
     public void insert(Card c) {
@@ -33,6 +35,10 @@ public class CardViewModel extends AndroidViewModel {
     public void deleteAllCards() {
         repository.deleteAllCards();
     }
+    public void fetchRandomTarot(int n) {
+        resetSelector();
+        repository.fetchRandomTarot(n);}
+    public void resetSelector() { iSelected.setValue(0);}
 
     public LiveData<List<Card>> getCardList() {
         return cardList;
