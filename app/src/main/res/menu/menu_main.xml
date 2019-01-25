@@ -2,9 +2,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.spectralfergus.practice.tarotapp.MainActivity">
-    <item android:id="@+id/action_reset"
+    <item android:id="@+id/action_new_cards"
           android:orderInCategory="90"
-          android:title="@string/action_reset"
+          android:title="@string/action_new_cards"
           app:showAsAction="ifRoom"
     />
     <item
