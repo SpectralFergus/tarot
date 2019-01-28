@@ -46,9 +46,19 @@ public class JsonUtils {
                 card.getString("value"),
                 card.getInt("value_int"),
                 card.optString("suit"),
-                card.getString("type"),
+                toTitleCase(card.getString("type")),
                 card.getString("meaning_up"),
                 card.getString("meaning_rev"),
                 card.getString("desc"));
+    }
+
+    private static String toTitleCase(String s) {
+        if (s == null || s.length() <= 0) return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append(Character.toUpperCase(s.charAt(0)));
+        for(int i = 1; i < s.length(); i++) {
+            sb.append(Character.toLowerCase(s.charAt(i)));
+        }
+        return sb.toString();
     }
 }
