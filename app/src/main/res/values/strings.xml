@@ -5,8 +5,11 @@
     <string name="reverse">Reverse:</string>
     <string name="card_content_description">Tarot card image</string>
     <string name="action_about">About</string>
-    <string name="about">Card data was obtained through GitHub user ekelen (https://github.com/ekelen/tarot-api).
+    <string name="about">Ask a question, click "NEW CARDS", and see what awaits you. Here are the basics:
+        \nMajors take precedence over Minors, higher numbers take precedence over lower, and the suits in order of importance
+        are Swords(physical), Wands(mental), Cups(social), and Coins/Pentacles(emotional/wealth).
+        \n\nCard data was obtained through GitHub user ekelen (https://github.com/ekelen/tarot-api).
         \n\nImages were obtained through sacred-texts (http://www.sacred-texts.com/tarot/pkt/index.htm).
-        \n\nThank you for using my app!
+        \n\n\nThank you for using my app!
     </string>
 </resources>
