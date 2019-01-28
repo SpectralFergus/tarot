@@ -3,6 +3,7 @@ package com.spectralfergus.practice.tarotapp;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -106,12 +107,14 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.action_new_cards) {
             showLoadingScreen();
             loadCardData();
+            return true;
+        }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_about) {
+            startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
 
