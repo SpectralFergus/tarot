@@ -1,9 +1,8 @@
 package com.spectralfergus.practice.tarotapp;
+
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.graphics.drawable.Drawable;
 
 @Entity(tableName = "card_table")
 public class Card {
@@ -15,20 +14,17 @@ public class Card {
     private String name;                // Knight of Swords
     private String value;               // Knight
     @ColumnInfo(name = "value_int")
-    private int valueInt;              // 12 (ekelen name: value_int)
+    private int valueInt;               // 12
     private String suit;                // Swords
     private String arcana;              // minor (ekelen name: type)
     @ColumnInfo(name = "meaning_up")
     private String meaningUp;           // Skill, bravery...
-    @ColumnInfo(name = "meaning_down")
-    private String meaningDown;         // Imprudence, incapacity... (ekelen name: meaning_rev)
+    @ColumnInfo(name = "meaning_rev")
+    private String meaningRev;          // Imprudence, incapacity...
     private String desc;                // He is riding in full course, as if scattering his enemies...
-//    @ColumnInfo(name = "img_drawable")
-//    @Ignore //might be better to just fetch from web every time?
-//    private Drawable imgDrawable;
 
     // Constructor allows room to re-create Card objects from database
-    public Card(String nameShort, String name, String value, int valueInt, String suit, String arcana, String meaningUp, String meaningDown, String desc/*, Drawable imgDrawable*/) {
+    public Card(String nameShort, String name, String value, int valueInt, String suit, String arcana, String meaningUp, String meaningRev, String desc) {
         this.nameShort = nameShort;
         this.name = name;
         this.value = value;
@@ -36,9 +32,8 @@ public class Card {
         this.suit = suit;
         this.arcana = arcana;
         this.meaningUp = meaningUp;
-        this.meaningDown = meaningDown;
+        this.meaningRev = meaningRev;
         this.desc = desc;
-//        this.imgDrawable = imgDrawable;
     }
 
     // == getters ==
@@ -74,8 +69,8 @@ public class Card {
         return meaningUp;
     }
 
-    public String getMeaningDown() {
-        return meaningDown;
+    public String getMeaningRev() {
+        return meaningRev;
     }
 
     public String getDesc() {
@@ -87,21 +82,11 @@ public class Card {
         return name;
     }
 
-    //    public Drawable getImgDrawable() {
-////        //todo: migrate async task that fetches drawable to Repository, then look into storing internally.
-//        return imgDrawable;
-//    }
-
     // == setters ==
-    // only value that does not appear in constructor
-    //
+    // Only value that does not appear in constructor, required for Room to interface with Card
     public void setId(int id) {
         this.id = id;
     }
-
-//    public void setImgDrawable(Drawable d) {
-//        imgDrawable = d;
-//    }
 }
 
 

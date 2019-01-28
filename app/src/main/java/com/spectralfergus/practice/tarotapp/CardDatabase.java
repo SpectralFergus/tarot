@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-@Database(entities = {Card.class}, version = 1)
+@Database(entities = {Card.class}, version = 2)
 public abstract class CardDatabase extends RoomDatabase {
     private static CardDatabase instance;
 
@@ -42,28 +42,13 @@ public abstract class CardDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         private CardDao cardDao;
-
         public PopulateDbAsyncTask(CardDatabase db) {
             this.cardDao = db.cardDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-//            cardDao.deleteAllCards();
-//            cardDao.fetchRandomTarot(3);
-//            Card c = new Card(
-//                    "swkn",
-//                    "Knight of Swords",
-//                    "knight",
-//                    12,
-//                    "swords",
-//                    "minor",
-//                    "Iunno, just knights n' stuff",
-//                    "Iunno, just sthgink n' stuff",
-//                    "Test test test hope this works"
-////                    null
-//            );
-//            cardDao.insert(c);
+            //todo: Instantiate date for the first time
             return null;
         }
     }

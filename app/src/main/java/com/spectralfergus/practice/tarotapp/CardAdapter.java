@@ -21,10 +21,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     public interface ListItemOnClickListener {
         void onClick(int position);
-
     }
 
-    public CardAdapter(ListItemOnClickListener activity) {
+    CardAdapter(ListItemOnClickListener activity) {
         mListener = activity;
     }
 
@@ -84,6 +83,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 }
                 return d;
             }
+
             @Override
             protected void onPostExecute(Drawable drawable) {
                 super.onPostExecute(drawable);

@@ -10,26 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonUtils {
+    // Parses a JSONObject of Cards into a List
+    /* SCHEMA
+        cards[]             []
+            name            str
+            name_short      str
+            value           str
+            value_int       int
+            suit            str
+            arcana          str
+            meaning_up      str
+            meaning_rev     str
+            desc            str
+     */
     public static List<Card> parseCardsFromJson(String jsonString) throws JSONException, IOException {
-        /* SCHEMA
-            cards[]             []
-                name            str
-                name_short      str
-                value           str
-                value_int       int
-                suit            str
-                arcana          str
-                meaning_up      str
-                meaning_rev     str
-                desc            str
-         */
         JSONObject cardsJSON = new JSONObject(jsonString);
         int hits = cardsJSON.getInt("nhits");
-//        if(hits < 2) return new Card[]{pluckJsonCard(cardsJSON.getJSONObject("card"))};
         JSONArray jsonArray = cardsJSON.getJSONArray("cards");
         List<Card> parsedCards = new ArrayList<>(hits);
 
-        for(int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonCard = jsonArray.getJSONObject(i);
             parsedCards.add(pluckJsonCard(jsonCard));
         }
@@ -37,9 +37,8 @@ public class JsonUtils {
         return parsedCards;
     }
 
-    private static Card pluckJsonCard(JSONObject card) throws IOException, JSONException {
-//        String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", card.getString("name_short"));
-//        Drawable d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
+    // Converts JSONObject -> Card
+    private static Card pluckJsonCard(JSONObject card) throws JSONException {
         return new Card(
                 card.getString("name_short"),
                 card.getString("name"),
@@ -56,7 +55,7 @@ public class JsonUtils {
         if (s == null || s.length() <= 0) return s;
         StringBuilder sb = new StringBuilder();
         sb.append(Character.toUpperCase(s.charAt(0)));
-        for(int i = 1; i < s.length(); i++) {
+        for (int i = 1; i < s.length(); i++) {
             sb.append(Character.toLowerCase(s.charAt(i)));
         }
         return sb.toString();
