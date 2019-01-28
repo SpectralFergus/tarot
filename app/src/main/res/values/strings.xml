@@ -4,4 +4,5 @@
     <string name="action_new_cards">New Cards</string>
     <string name="meaning">Meaning:</string>
     <string name="reverse">Reverse:</string>
+    <string name="card_content_description">Tarot Card Image</string>
 </resources>
