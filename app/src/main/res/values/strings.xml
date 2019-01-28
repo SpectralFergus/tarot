@@ -2,5 +2,8 @@
     <string name="app_name">Tarot</string>
     <string name="action_new_cards">New Cards</string>
     <string name="action_about">About</string>
-    <string name="about">Thank you for using my app!</string>
+    <string name="about">Card data was obtained through GitHub user ekelen (https://github.com/ekelen/tarot-api).
+        \n\nImages were obtained through sacred-texts (http://www.sacred-texts.com/tarot/pkt/index.htm).
+        \n\nThank you for using my app!
+    </string>
 </resources>
