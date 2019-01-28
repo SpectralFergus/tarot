@@ -50,6 +50,7 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="0dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textStyle="bold"
                         tools:text="Knight of Swords"/>
 
                 <LinearLayout
@@ -96,6 +97,7 @@
                 </LinearLayout>
 
                 <TextView
+                        style="@style/TextViewDefault"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="0dp"
@@ -110,6 +112,7 @@
                         tools:text="Skill, bravery, capacity, defence, address, enmity, wrath, war, destruction, opposition, resistance, ruin. There is therefore a sense in which the card signifies death, but it carries this meaning only in its proximity to other cards of fatality."/>
 
                 <TextView
+                        style="@style/TextViewDefault"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="0dp"
