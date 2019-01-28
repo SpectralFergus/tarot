@@ -2,8 +2,8 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -172,13 +172,15 @@ public class MainActivity extends AppCompatActivity implements CardAdapter.ListI
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (id == R.id.action_new_cards) {
             showLoadingScreen();
             loadCardData();
+            return true;
+        }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_about) {
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
