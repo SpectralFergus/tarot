@@ -5,11 +5,13 @@
     <string name="reverse">Reverse:</string>
     <string name="card_content_description">Tarot card image</string>
     <string name="action_about">About</string>
-    <string name="about">Ask a question, click "NEW CARDS", and see what awaits you. Here are the basics:
-        \nMajors take precedence over Minors, higher numbers take precedence over lower, and the suits in order of importance
+    <string name="about">Ask a question, click \"NEW CARDS\", and see what awaits you. Here are the basics:
+        \nMajor takes precedence over minor, higher numbers take precedence over lower, and the suits in order of importance
         are Swords(physical), Wands(mental), Cups(social), and Coins/Pentacles(emotional/wealth).
-        \n\nCard data was obtained through GitHub user ekelen (https://github.com/ekelen/tarot-api).
-        \n\nImages were obtained through sacred-texts (http://www.sacred-texts.com/tarot/pkt/index.htm).
-        \n\n\nThank you for using my app!
+        \n
+        \n\nCard data was obtained through "tarot-api" by @ekelen: https://github.com/ekelen/tarot-api.
+        \n\nTarot card images are scans of the vintage "Pamela-A" deck provided by Holly Voley at sacred-texts.com, and are within the public domain: http://www.sacred-texts.com/tarot/pkt/index.htm
+
+        \n\n\nThank you for using my app! There are tons of amazing tarot card apps out there, but I\'m glad you decided to open mine :).
     </string>
 </resources>
