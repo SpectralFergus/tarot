@@ -13,6 +13,6 @@ Tapping on any card's image updates the description box with the details of that
 Working on implementing ViewModel so that loadCardData() is not triggered upon configuration changes (i.e. screen rotation).
 
 ---
-API referenced: https://github.com/ekelen/tarot-api
+Tarot card data was obtained through "tarot-api" by @ekelen: https://github.com/ekelen/tarot-api
 
-images: http://www.sacred-texts.com/tarot/pkt/index.htm
+Tarot card images are scans of the vintage "Pamela-A" deck provided by Holly Voley at sacred-texts.com, and are within the public domain: http://www.sacred-texts.com/tarot/pkt/index.htm
