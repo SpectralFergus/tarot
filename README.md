@@ -10,7 +10,8 @@ Upon launch, a call is made to ekelen's tarot-api to fetch 3 random cards, which
 Tapping on any card's image updates the description box with the details of that card.
 
 ## Currently in Progress:
-v1 is published to the Google Play store.
+v1 is published to the Google Play store. On mobile, search for keyword "spectralfergus".
+
 https://play.google.com/store/apps/details?id=com.spectralfergus.practice.tarot&hl=en
 
 ---
