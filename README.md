@@ -10,7 +10,8 @@ Upon launch, a call is made to ekelen's tarot-api to fetch 3 random cards, which
 Tapping on any card's image updates the description box with the details of that card.
 
 ## Currently in Progress:
-Working on implementing ViewModel so that loadCardData() is not triggered upon configuration changes (i.e. screen rotation).
+v1 is published to the Google Play store.
+https://play.google.com/store/apps/details?id=com.spectralfergus.practice.tarot&hl=en
 
 ---
 Tarot card data was obtained through "tarot-api" by @ekelen: https://github.com/ekelen/tarot-api
