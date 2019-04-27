@@ -28,8 +28,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     tools:layoutManager="LinearLayoutManager"
-                    tools:listitem="@layout/card_item"
-                    tools:orientation="horizontal"/>
+                    tools:listitem="@layout/card_item"/>
         </FrameLayout>
 
         <!-- Description Box -->
