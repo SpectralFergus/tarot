@@ -48,7 +48,8 @@ public class JsonUtils {
                 toTitleCase(card.getString("type")),
                 card.getString("meaning_up"),
                 card.getString("meaning_rev"),
-                card.getString("desc"));
+                card.getString("desc"),
+                false);
     }
 
     private static String toTitleCase(String s) {

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-@Database(entities = {Card.class}, version = 2)
+@Database(entities = {Card.class}, version = 3)
 public abstract class CardDatabase extends RoomDatabase {
     private static CardDatabase instance;
 

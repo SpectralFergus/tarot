@@ -1,8 +1,13 @@
 package com.spectralfergus.practice.tarotapp;
 
+import android.app.Activity;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.animation.DrawableAlphaProperty;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +18,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     private List<Card> mCardList = new ArrayList<>(); // Don't want to deal with NullPointerExceptions in Java
+    private CardViewModel viewModel;
     final private ListItemOnClickListener mListener;
 
     public interface ListItemOnClickListener {
@@ -25,6 +32,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     CardAdapter(ListItemOnClickListener activity) {
         mListener = activity;
+        viewModel = ViewModelProviders.of((FragmentActivity) activity).get(CardViewModel.class);
     }
 
     @NonNull
@@ -37,7 +45,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         Card curCard = mCardList.get(position);
-        holder.bind(curCard);
+        holder.bind(curCard, position);
     }
 
     @Override
@@ -50,6 +58,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         notifyDataSetChanged(); //TODO: Replace NotifyDataSetChanged() with more granular notify methods
     }
 
+    public void setImages(HashMap<String, Drawable> cardImageMap) {
+        notifyDataSetChanged();
+    }
+
     //==== INNER CLASS, CARD VIEW HOLDER
     class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivCard;
@@ -60,35 +72,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             itemView.setOnClickListener(this);
         }
 
-        private void bind(Card curCard) {
+        private void bind(Card curCard, int position) {
             ivCard.setImageDrawable(null);
-            new FetchImageAsyncTask().execute(curCard);
+            if (!curCard.getHasImage()) {
+                viewModel.fetchCardImage(position);
+                return;
+            }
+            ivCard.setImageDrawable(viewModel.getCardImage(curCard));
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
             mListener.onClick(position);
-        }
-
-        public class FetchImageAsyncTask extends AsyncTask<Card, Void, Drawable> {
-            @Override
-            protected Drawable doInBackground(Card... cards) {
-                Drawable d = null;
-                String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", cards[0].getNameShort());
-                try {
-                    d = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return d;
-            }
-
-            @Override
-            protected void onPostExecute(Drawable drawable) {
-                super.onPostExecute(drawable);
-                ivCard.setImageDrawable(drawable);
-            }
         }
     }
 }

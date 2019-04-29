@@ -2,7 +2,9 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.drawable.Drawable;
 
 @Entity(tableName = "card_table")
 public class Card {
@@ -22,9 +24,10 @@ public class Card {
     @ColumnInfo(name = "meaning_rev")
     private String meaningRev;          // Imprudence, incapacity...
     private String desc;                // He is riding in full course, as if scattering his enemies...
+    private boolean hasImage;
 
     // Constructor allows room to re-create Card objects from database
-    public Card(String nameShort, String name, String value, int valueInt, String suit, String arcana, String meaningUp, String meaningRev, String desc) {
+    public Card(String nameShort, String name, String value, int valueInt, String suit, String arcana, String meaningUp, String meaningRev, String desc, boolean hasImage) {
         this.nameShort = nameShort;
         this.name = name;
         this.value = value;
@@ -34,6 +37,7 @@ public class Card {
         this.meaningUp = meaningUp;
         this.meaningRev = meaningRev;
         this.desc = desc;
+        this.hasImage = hasImage;
     }
 
     // == getters ==
@@ -77,6 +81,10 @@ public class Card {
         return desc;
     }
 
+    public boolean getHasImage() {
+        return hasImage;
+    }
+
     @Override
     public String toString() {
         return name;
@@ -86,6 +94,10 @@ public class Card {
     // Only value that does not appear in constructor, required for Room to interface with Card
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
     }
 }
 

@@ -2,16 +2,21 @@ package com.spectralfergus.practice.tarotapp;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import com.spectralfergus.practice.tarotapp.utils.JsonUtils;
 import com.spectralfergus.practice.tarotapp.utils.NetworkUtils;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 public class CardRepository {
@@ -19,6 +24,8 @@ public class CardRepository {
 
     private CardDao cardDao;
     private LiveData<List<Card>> cardList;
+    //todo: convert to table of drawables for persistent internal storage of card images
+    private static HashMap<String, Drawable> cardImages = new HashMap<>();
 
     public CardRepository(Application application) {
         CardDatabase db = CardDatabase.getInstance(application);
@@ -47,8 +54,17 @@ public class CardRepository {
         new FetchNCardsAsyncTask(cardDao).execute(n);
     }
 
+    public void fetchCardImage(int position) {
+        Card c = cardList.getValue().get(position);
+        new FetchImageAsyncTask(cardDao).execute(c);
+    }
+
     public LiveData<List<Card>> getCardList() {
         return cardList;
+    }
+
+    public Drawable getCardImage(Card curCard) {
+        return cardImages.get(curCard.getNameShort());
     }
 
     // === Background Threads ===
@@ -148,6 +164,33 @@ public class CardRepository {
                 Log.e(TAG, "doInBackground: JSON err");
                 e.printStackTrace();
             }
+            return null;
+        }
+    }
+
+    public static class FetchImageAsyncTask extends AsyncTask<Card, Void, Void> {
+        private CardDao cardDao;
+        public FetchImageAsyncTask(CardDao cardDao) {
+            this.cardDao = cardDao;
+        }
+
+        @Override
+        protected Void doInBackground(Card... cards) {
+            if (!cardImages.containsKey(cards[0].getNameShort())) {
+                Drawable cardImage;
+                String nameShort = cards[0].getNameShort();
+                String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", nameShort);
+                try {
+                    cardImage = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
+                    if (cardImage != null) {
+                        cardImages.put(nameShort, cardImage);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            cards[0].setHasImage(true);
+            cardDao.update(cards[0]);
             return null;
         }
     }
