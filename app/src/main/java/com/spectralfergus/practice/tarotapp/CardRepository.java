@@ -125,6 +125,7 @@ public class CardRepository {
     }
 
     // === NETWORK LOGIC TO RETRIEVE CARD DATA ===
+    // Retrieves card data from tarot-api by GitHub user @ekelen: https://github.com/ekelen/tarot-api
     private static class FetchNCardsAsyncTask extends AsyncTask<Integer, Void, Void> {
         private static final String URI_BASE = "https://rws-cards-api.herokuapp.com/api/v1/cards/";
         CardDao cardDao;

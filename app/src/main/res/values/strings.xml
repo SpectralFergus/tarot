@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tarot</string>
+    <string name="app_name">Spectral Tarot</string>
     <string name="action_new_cards">New Cards</string>
     <string name="meaning">Meaning:</string>
     <string name="reverse">Reverse:</string>
