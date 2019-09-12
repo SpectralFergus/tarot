@@ -179,7 +179,7 @@ public class CardRepository {
             if (!cardImages.containsKey(cards[0].getNameShort())) {
                 Drawable cardImage;
                 String nameShort = cards[0].getNameShort();
-                String strImage = String.format("http://www.sacred-texts.com/tarot/pkt/img/%s.jpg", nameShort);
+                String strImage = String.format("https://www.sacred-texts.com/tarot/pkt/img/%s.jpg", nameShort);
                 try {
                     cardImage = Drawable.createFromStream((InputStream) new URL(strImage).getContent(), "src");
                     if (cardImage != null) {
